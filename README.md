@@ -6,22 +6,27 @@ Docker and Java runtime are required to run the application  (Skip if already in
 https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
 **Steps to set up and run the application**
-1)Run the below command to start the elastic search docker container
+1)Open terminal and run the below command to start the elastic search docker container
+
 docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:6.0.1 &
 
-2) build the application and run it
+2) build the application and run it,on a new terminal run the below command
+
 ./gradlew  build -xtest && java -jar build/libs/news-scrapper-0.1.0.jar  
+
 Alternatively import it in an IDE and run com.handzap.assignment.scrapper.Application
 
 The test com.handzap.assignment.scrapper.ApplicationFunctionalTest contains test for scenarios given in the 
 assignment .It can be run after the application is up.
 The test gets data from the newspaper archive for few articles and tests the search scenarios given below 
 
+Verify that the application is up ,open  http://localhost:8080/v1/site/test in browser .It should show up 
 
 Set up data ,
-This is not needed if com.handzap.assignment.scrapper.ApplicationFunctionalTest is already run ,the test
-sets up data on start up
-run the below command
+The test com.handzap.assignment.scrapper.ApplicationFunctionalTest sets up date for 10 records and runs the tests on them.
+Data can explicitly scrapped from archive .
+run the below command from terminal or ,use a rest client to send the request
+
 curl -X POST "localhost:8080/v1/site" -H 'Content-Type: application/json' -d'{"baseUrl":"https://www.thehindu.com/archive/web","maxRecords":10}'
 
 This will scrape the site data upto a maximum of maxRecords ,if specified.
